@@ -1,0 +1,18 @@
+[
+    {
+        "possesseur": "John Doe",
+        "libelle": "Voiture",
+        "valeur": 20000,
+        "dateDebut": "2023-01-01",
+        "dateFin": "2028-01-01",
+        "tauxAmortissement": 10
+    },
+    {
+        "possesseur": "John Doe",
+        "libelle": "Maison",
+        "valeur": 150000,
+        "dateDebut": "2020-01-01",
+        "dateFin": "2040-01-01",
+        "tauxAmortissement": 5
+    }
+]
