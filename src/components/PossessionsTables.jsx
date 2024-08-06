@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Button, Form, Table } from 'react-bootstrap';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { Button, Container, Form, Table } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import possessionsData from '../data';
 
 const calculateCurrentValue = (possession, date) => {
     const startDate = new Date(possession.dateDebut);
@@ -14,6 +14,20 @@ const calculateCurrentValue = (possession, date) => {
 const PossessionsTable = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [patrimoineValue, setPatrimoineValue] = useState(0);
+    const [possessionsData, setPossessionsData] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/api/possessions');
+                setPossessionsData(response.data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     const handleCalculatePatrimoine = () => {
         let totalValue = 0;
@@ -24,44 +38,47 @@ const PossessionsTable = () => {
     };
 
     return (
-        <div>
-            <Table striped bordered hover>
-                <thead>
-                    <tr>
-                        <th>Libellé</th>
-                        <th>Valeur Initiale</th>
-                        <th>Date Début</th>
-                        <th>Date Fin</th>
-                        <th>Taux d'Amortissement</th>
-                        <th>Valeur Actuelle</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {possessionsData.map((possession, index) => (
-                        <tr key={index}>
-                            <td>{possession.libelle}</td>
-                            <td>{possession.valeur}</td>
-                            <td>{possession.dateDebut}</td>
-                            <td>{possession.dateFin}</td>
-                            <td>{possession.tauxAmortissement}</td>
-                            <td>{calculateCurrentValue(possession, new Date()).toFixed(2)}</td>
+        <Container className="mt-5 d-flex justify-content-center align-items-center flex-column" style={{ minHeight: '100vh' }}>
+            <div className="text-center" style={{ width: '100%' }}>
+                <h2 className="mb-4">Liste des Possessions</h2>
+                <Table striped bordered hover className="mx-auto" style={{ maxWidth: '90%' }}>
+                    <thead>
+                        <tr>
+                            <th>Libellé</th>
+                            <th>Valeur Initiale</th>
+                            <th>Date Début</th>
+                            <th>Date Fin</th>
+                            <th>Taux d'Amortissement</th>
+                            <th>Valeur Actuelle</th>
                         </tr>
-                    ))}
-                </tbody>
-            </Table>
-            <Form>
-                <Form.Group>
-                    <Form.Label>Sélectionner une date</Form.Label>
-                    <DatePicker selected={selectedDate} onChange={(date) => setSelectedDate(date)} />
-                </Form.Group>
-                <Button variant="primary" onClick={handleCalculatePatrimoine}>
-                    Valider
-                </Button>
-            </Form>
-            <div className="mt-3">
-                <h4>La Valeur du Patrimoine à la date sélectionnée est : {patrimoineValue.toFixed(2)} Ar</h4>
+                    </thead>
+                    <tbody>
+                        {possessionsData.map((possession, index) => (
+                            <tr key={index}>
+                                <td>{possession.libelle}</td>
+                                <td>{possession.valeur}</td>
+                                <td>{possession.dateDebut}</td>
+                                <td>{possession.dateFin}</td>
+                                <td>{possession.tauxAmortissement}</td>
+                                <td>{calculateCurrentValue(possession, new Date()).toFixed(2)}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </Table>
+                <Form>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Sélectionner une date : </Form.Label>
+                        <DatePicker selected={selectedDate} onChange={(date) => setSelectedDate(date)} />
+                    </Form.Group>
+                    <Button variant="primary" onClick={handleCalculatePatrimoine}>
+                        Valider
+                    </Button>
+                </Form>
+                <div className="mt-3">
+                    <h4>Valeur du Patrimoine à la date sélectionnée : {patrimoineValue.toFixed(2)} Ar</h4>
+                </div>
             </div>
-        </div>
+        </Container>
     );
 };
 

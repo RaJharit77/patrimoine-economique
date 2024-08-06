@@ -1,0 +1,30 @@
+[
+    {
+        "libelle": "Casque bluetooth",
+        "valeur": 70000,
+        "dateDebut": "2022-01-01",
+        "dateFin": "2029-01-01",
+        "tauxAmortissement": 2
+    },
+    {
+        "libelle": "apple iPhone 6s",
+        "valeur": 700000,
+        "dateDebut": "2020-02-03",
+        "dateFin": "2026-07-07",
+        "tauxAmortissement": 6
+    },
+    {
+        "libelle": "Ordinateur",
+        "valeur": 5300000,
+        "dateDebut": "2023-07-07",
+        "dateFin": "2027-12-31",
+        "tauxAmortissement": 4
+    },
+    {
+        "libelle": "Airpods pro",
+        "valeur": 100000,
+        "dateDebut": "2020-12-31",
+        "dateFin": "2028-12-31",
+        "tauxAmortissement": 1
+    }
+]
