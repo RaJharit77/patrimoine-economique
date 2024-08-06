@@ -7,11 +7,11 @@
         "tauxAmortissement": 2
     },
     {
-        "libelle": "apple iPhone 6s",
+        "libelle": "iPhone 6s",
         "valeur": 700000,
         "dateDebut": "2020-02-03",
         "dateFin": "2026-07-07",
-        "tauxAmortissement": 6
+        "tauxAmortissement": 5
     },
     {
         "libelle": "Ordinateur",
@@ -22,9 +22,30 @@
     },
     {
         "libelle": "Airpods pro",
-        "valeur": 100000,
+        "valeur": 300000,
         "dateDebut": "2020-12-31",
         "dateFin": "2028-12-31",
+        "tauxAmortissement": 2
+    },
+    {
+        "libelle": "JBL MGS 22",
+        "valeur": 90000,
+        "dateDebut": "2022-04-17",
+        "dateFin": "2029-12-31",
+        "tauxAmortissement": 1
+    },
+    {
+        "libelle": "PS4 Pro",
+        "valeur": 9000000,
+        "dateDebut": "2025-04-17",
+        "dateFin": "2031-12-31",
+        "tauxAmortissement": 3
+    },
+    {
+        "libelle": "Tecno Spark 10 Pro",
+        "valeur": 9200000,
+        "dateDebut": "2025-04-17",
+        "dateFin": "2031-12-31",
         "tauxAmortissement": 1
     }
 ]

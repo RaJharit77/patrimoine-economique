@@ -38,16 +38,16 @@ const PossessionsTable = () => {
     };
 
     return (
-        <Container className="mt-5 d-flex justify-content-center align-items-center flex-column" style={{ minHeight: '100vh' }}>
+        <Container className="mt-5">
             <div className="text-center" style={{ width: '100%' }}>
-                <h2 className="mb-4">Liste des Possessions</h2>
+                <h2 className="mb-4">Les Liste des Possessions</h2>
                 <Table striped bordered hover className="mx-auto" style={{ maxWidth: '90%' }}>
                     <thead>
                         <tr>
                             <th>Libellé</th>
                             <th>Valeur Initiale</th>
-                            <th>Date Début</th>
-                            <th>Date Fin</th>
+                            <th>Date de début</th>
+                            <th>Date de fin</th>
                             <th>Taux d'Amortissement</th>
                             <th>Valeur Actuelle</th>
                         </tr>
@@ -67,7 +67,7 @@ const PossessionsTable = () => {
                 </Table>
                 <Form>
                     <Form.Group className="mb-3">
-                        <Form.Label>Sélectionner une date : </Form.Label>
+                        <Form.Label>Sélectionner une date :</Form.Label>
                         <DatePicker selected={selectedDate} onChange={(date) => setSelectedDate(date)} />
                     </Form.Group>
                     <Button variant="primary" onClick={handleCalculatePatrimoine}>
@@ -75,7 +75,7 @@ const PossessionsTable = () => {
                     </Button>
                 </Form>
                 <div className="mt-3">
-                    <h4>Valeur du Patrimoine à la date sélectionnée : {patrimoineValue.toFixed(2)} Ar</h4>
+                    <h4>Valeur du Patrimoine à la date sélectionnée : {patrimoineValue.toFixed(0)} Ar</h4>
                 </div>
             </div>
         </Container>
