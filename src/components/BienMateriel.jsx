@@ -1,0 +1,13 @@
+import Possession from './Possession';
+
+class BienMateriel extends Possession {
+    constructor(possesseur, libelle, valeur, dateDebut, dateFin, tauxAmortissement) {
+        super(possesseur, libelle, valeur, dateDebut, dateFin, tauxAmortissement);
+    }
+
+    getValeur(date) {
+        super.getValeur(date);
+    }
+}
+
+export default BienMateriel;
