@@ -5,23 +5,18 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-<<<<<<< HEAD
-    "test": "echo \"Error: no test specified\" && exit 1"
-=======
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server/server.js",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
->>>>>>> mainUI
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-<<<<<<< HEAD
     "chai": "^5.1.1",
-    "mocha": "^10.7.0"
-=======
+    "mocha": "^10.7.0",
     "axios": "^1.7.3",
     "bootstrap": "^5.3.3",
     "cors": "^2.8.5",
@@ -43,6 +38,5 @@
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.7",
     "vite": "^5.3.4"
->>>>>>> mainUI
   }
 }
