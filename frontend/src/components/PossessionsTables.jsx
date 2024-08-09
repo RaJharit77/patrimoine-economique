@@ -40,7 +40,7 @@ const PossessionsTable = () => {
     return (
         <Container className="mt-5">
             <div className="text-center" style={{ width: '100%' }}>
-                <h2 className="mb-4">Liste des Possessions</h2>
+                <h2 className="mb-4">Les Liste des Possessions</h2>
                 <Table striped bordered hover className="mx-auto" style={{ maxWidth: '90%' }}>
                     <thead>
                         <tr>
@@ -60,7 +60,7 @@ const PossessionsTable = () => {
                                 <td>{possession.dateDebut}</td>
                                 <td>{possession.dateFin}</td>
                                 <td>{possession.tauxAmortissement}</td>
-                                <td>{calculateCurrentValue(possession, new Date()).toFixed(2)}</td>
+                                <td>{calculateCurrentValue(possession, new Date()).toFixed(0)}</td>
                             </tr>
                         ))}
                     </tbody>
@@ -75,7 +75,7 @@ const PossessionsTable = () => {
                     </Button>
                 </Form>
                 <div className="mt-3">
-                    <h4>Valeur du Patrimoine à la date sélectionnée : {patrimoineValue.toFixed(0)} Ar</h4>
+                    <h4>La Valeur du Patrimoine à la date sélectionnée : {patrimoineValue.toFixed(0)} Ar</h4>
                 </div>
             </div>
         </Container>
