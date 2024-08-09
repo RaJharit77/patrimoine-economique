@@ -32,9 +32,5 @@ async function writeFile(path, data) {
   }
 }
 
-<<<<<<< HEAD
-export { readFile, writeFile };
-=======
 export { readFile, writeFile };
 
->>>>>>> mainUI
