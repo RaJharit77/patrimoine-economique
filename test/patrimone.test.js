@@ -133,3 +133,20 @@ describe("Test about possession increasing ration :", () => {
         assert.equal(savingsAccount.getValeur(new Date("2025-3-3")), 220_000)
     })
 })
+
+describe("A test for calculating the total value of all possessions using Patrimoine.getValeur", ()=>{
+  it("it should return 3855128.7671232875", ()=>{
+    const Ilo = new Personne("Ilo");
+    const ordinateur = new Possession(Ilo,"ordinateur",2_000_000,new Date("2021-05-10"),null,10);
+    const compteEpargne = new Argent(Ilo,"compte epargne",20_000,new Date("2023-04-09"),null,60,"2023-06-01",TYPE_ARGENT.Epargne);
+    const salary = new Flux(Ilo,"Salaire",600_000,new Date("2024-3-3"),null,0,15);
+    const spending = new Flux(Ilo,"Depense",-100_000,new Date("2024-3-3"),null,0,1);
+
+    const possessions = [ordinateur, compteEpargne, salary, spending];
+    const patrimoine = new Patrimoine(Ilo, possessions)
+
+    const date = new Date("2024-8-8");
+    const result = ordinateur.getValeur(date) + compteEpargne.getValeur(date) + salary.getValeur(date) + spending.getValeur(date)
+    assert.equal(patrimoine.getValeur(date), result)
+  })
+})
