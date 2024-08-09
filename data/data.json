@@ -9,15 +9,26 @@
           "possesseur": { "nom": "John Doe" },
           "libelle": "MacBook Pro",
           "valeur": 4000000,
+<<<<<<< HEAD
           "dateDebut": "2023-12-25T00:00:00.000Z",
           "dateFin": null,
           "tauxAmortissement": 5
+=======
+          "dateDebut": "2021-10-26T00:00:00.000Z",
+          "dateFin": null,
+          "tauxAmortissement": 10
+>>>>>>> mainUI
         },
         {
           "possesseur": { "nom": "John Doe" },
           "libelle": "Alternance",
+<<<<<<< HEAD
           "valeur": 0,
           "dateDebut": "2022-12-31T21:00:00.000Z",
+=======
+          "valeur": 4700000,
+          "dateDebut": "2024-12-31T21:00:00.000Z",
+>>>>>>> mainUI
           "dateFin": null,
           "tauxAmortissement": null,
           "jour": 1,
@@ -26,7 +37,11 @@
         {
           "possesseur": { "nom": "John Doe" },
           "libelle": "Survie",
+<<<<<<< HEAD
           "valeur": 0,
+=======
+          "valeur": 270000,
+>>>>>>> mainUI
           "dateDebut": "2022-12-31T21:00:00.000Z",
           "dateFin": null,
           "tauxAmortissement": null,
@@ -35,6 +50,7 @@
         },
         {
           "possesseur": { "nom": "John Doe" },
+<<<<<<< HEAD
           "libelle": "MacBook Pro",
           "valeur": 4000000,
           "dateDebut": "2023-12-25T00:00:00.000Z",
@@ -48,14 +64,45 @@
           "dateDebut": "2022-12-31T21:00:00.000Z",
           "dateFin": null,
           "tauxAmortissement": null,
+=======
+          "libelle": "effets vestimentaires",
+          "valeur": 1000000,
+          "dateDebut": "2023-01-01T00:00:00.000Z",
+          "dateFin": null,
+          "tauxAmortissement": 20
+        },
+        {
+          "possesseur": { "nom": "John Doe" },
+          "libelle": "Compte Epargne",
+          "valeur": 200000,
+          "dateDebut": "2022-12-31T21:00:00.000Z",
+          "dateFin": null,
+          "tauxAmortissement": 5,
+>>>>>>> mainUI
           "jour": 1,
           "valeurConstante": 500000
         },
         {
           "possesseur": { "nom": "John Doe" },
+<<<<<<< HEAD
           "libelle": "Survie",
           "valeur": 0,
           "dateDebut": "2022-12-31T21:00:00.000Z",
+=======
+          "libelle": "Espèces",
+          "valeur": 400000,
+          "dateDebut": "2024-08-07T21:00:00.000Z",
+          "dateFin": null,
+          "tauxAmortissement": null,
+          "jour": 2,
+          "valeurConstante": -300000
+        },
+        {
+          "possesseur": { "nom": "John Doe" },
+          "libelle": "Compte Courant",
+          "valeur": 600000,
+          "dateDebut": "2024-03-27T21:00:00.000Z",
+>>>>>>> mainUI
           "dateFin": null,
           "tauxAmortissement": null,
           "jour": 2,
