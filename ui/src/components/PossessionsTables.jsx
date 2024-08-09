@@ -1,3 +1,4 @@
+// src/PossessionsTable.jsx
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Button, Container, Form, Table } from 'react-bootstrap';
@@ -47,7 +48,7 @@ const PossessionsTable = () => {
                             <th>Libellé</th>
                             <th>Valeur Initiale</th>
                             <th>Date de début</th>
-                            <th>Date de fin(Provisoirement)</th>
+                            <th>Date de fin</th>
                             <th>Taux d'Amortissement</th>
                             <th>Valeur Actuelle</th>
                         </tr>
@@ -57,8 +58,8 @@ const PossessionsTable = () => {
                             <tr key={index}>
                                 <td>{possession.libelle}</td>
                                 <td>{possession.valeur}</td>
-                                <td>{new Date(possession.dateDebut).toLocaleDateString()}</td>
-                                <td>{new Date(possession.dateFin).toLocaleDateString()}</td>
+                                <td>{possession.dateDebut}</td>
+                                <td>{possession.dateFin}</td>
                                 <td>{possession.tauxAmortissement}</td>
                                 <td>{calculateCurrentValue(possession, new Date()).toFixed(2)}</td>
                             </tr>
