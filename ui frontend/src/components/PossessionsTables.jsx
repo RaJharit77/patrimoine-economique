@@ -39,45 +39,41 @@ const PossessionsTable = () => {
 
     return (
         <Container className="mt-5">
-            <div className="text-center" style={{ width: '100%' }}>
-                <h2 className="mb-4">Les Liste des Possessions</h2>
-                <Table striped bordered hover className="mx-auto" style={{ maxWidth: '90%' }}>
-                    <thead>
-                        <tr>
-                            <th>Libellé</th>
-                            <th>Valeur Initiale</th>
-                            <th>Date de début</th>
-                            <th>Date de fin</th>
-                            <th>Taux d'Amortissement</th>
-                            <th>Valeur Actuelle</th>
+            <Form.Group controlId="datePicker" className="mb-3">
+                <Form.Label>Select Date</Form.Label>
+                <DatePicker
+                    selected={selectedDate}
+                    onChange={date => setSelectedDate(date)}
+                    className="form-control"
+                />
+            </Form.Group>
+            <Button onClick={handleCalculatePatrimoine} variant="primary">Calculate Patrimoine</Button>
+            <h3 className="mt-3">Patrimoine Value: {patrimoineValue}</h3>
+
+            <Table striped bordered hover className="mt-3">
+                <thead>
+                    <tr>
+                        <th>Libelle</th>
+                        <th>Valeur</th>
+                        <th>Date Début</th>
+                        <th>Date Fin</th>
+                        <th>Taux Amortissement</th>
+                        <th>Valeur Actuelle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {possessionsData.map((possession, index) => (
+                        <tr key={index}>
+                            <td>{possession.libelle}</td>
+                            <td>{possession.valeur}</td>
+                            <td>{new Date(possession.dateDebut).toLocaleDateString()}</td>
+                            <td>{possession.dateFin ? new Date(possession.dateFin).toLocaleDateString() : 'N/A'}</td>
+                            <td>{possession.tauxAmortissement}%</td>
+                            <td>{calculateCurrentValue(possession, selectedDate)}</td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        {possessionsData.map((possession, index) => (
-                            <tr key={index}>
-                                <td>{possession.libelle}</td>
-                                <td>{possession.valeur}</td>
-                                <td>{possession.dateDebut}</td>
-                                <td>{possession.dateFin}</td>
-                                <td>{possession.tauxAmortissement}</td>
-                                <td>{calculateCurrentValue(possession, new Date()).toFixed(0)}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </Table>
-                <Form>
-                    <Form.Group className="mb-3">
-                        <Form.Label>Sélectionner une date :</Form.Label>
-                        <DatePicker selected={selectedDate} onChange={(date) => setSelectedDate(date)} />
-                    </Form.Group>
-                    <Button variant="primary" onClick={handleCalculatePatrimoine}>
-                        Valider
-                    </Button>
-                </Form>
-                <div className="mt-3">
-                    <h4>La Valeur du Patrimoine à la date sélectionnée : {patrimoineValue.toFixed(0)} Ar</h4>
-                </div>
-            </div>
+                    ))}
+                </tbody>
+            </Table>
         </Container>
     );
 };
