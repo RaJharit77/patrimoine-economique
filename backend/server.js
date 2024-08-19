@@ -46,10 +46,10 @@ app.post('/api/possessions', async (req, res) => {
     }
 });
 
+//Endpoint to create possession
 app.post('/api/possession/create', async (req, res) => {
     const { libelle, valeur, dateDebut, taux } = req.body;
 
-    // Vérifier que tous les champs requis sont présents
     if (!libelle || !valeur || !dateDebut || !taux) {
         return res.status(400).json({ error: 'Tous les champs sont obligatoires.' });
     }
@@ -62,7 +62,6 @@ app.post('/api/possession/create', async (req, res) => {
 
         const data = result.data;
         
-        // Vérifier que le format des données est correct
         if (!Array.isArray(data) || !data[1] || !data[1].data || !Array.isArray(data[1].data.possessions)) {
             return res.status(500).json({ error: 'Invalid data format' });
         }
