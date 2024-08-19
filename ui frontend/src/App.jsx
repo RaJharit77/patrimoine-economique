@@ -5,7 +5,6 @@ import NavBar from './components/Navbar';
 import CreatePossession from './pages/CreatePossessionPage';
 import PatrimoinePage from './pages/Patrimoine';
 import PossessionList from './pages/Possessions';
-import PossessionsTables from './pages/PossessionsTables';
 import UpdatePossession from './pages/UpdatePossessionPage';
 
 function App() {
@@ -13,9 +12,9 @@ function App() {
         <Router>
             <NavBar />
             <Routes>
-                <Route path="/" element={<PossessionsTables />} />
-                <Route path="/possession" element={<CreatePossession />} />
-                <Route path="/possession/create" element={<PossessionList />} />
+                <Route path="/" element={<PossessionList />} />
+                <Route path="/possession" element={<PossessionList />} />
+                <Route path="/possession/create" element={<CreatePossession />} />
                 <Route path="/patrimoine" element={<PatrimoinePage />} />
                 <Route path="/possession/:libelle/update" element={<UpdatePossession />} />
             </Routes>

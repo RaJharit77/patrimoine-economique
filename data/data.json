@@ -1,12 +1,21 @@
 [
-  { "model": "Personne", "data": { "nom": "John Doe" } },
+  {
+    "model": "Personne",
+    "data": {
+      "nom": "John Doe"
+    }
+  },
   {
     "model": "Patrimoine",
     "data": {
-      "possesseur": { "nom": "John Doe" },
+      "possesseur": {
+        "nom": "John Doe"
+      },
       "possessions": [
         {
-          "possesseur": { "nom": "John Doe" },
+          "possesseur": {
+            "nom": "John Doe"
+          },
           "libelle": "MacBook Pro",
           "valeur": 4000000,
           "dateDebut": "2021-10-26T00:00:00.000Z",
@@ -14,27 +23,33 @@
           "tauxAmortissement": 10
         },
         {
-          "possesseur": { "nom": "John Doe" },
+          "possesseur": {
+            "nom": "John Doe"
+          },
           "libelle": "Alternance",
           "valeur": 4700000,
           "dateDebut": "2024-12-31T21:00:00.000Z",
           "dateFin": null,
-          "tauxAmortissement": 0,
+          "tauxAmortissement": null,
           "jour": 1,
           "valeurConstante": 500000
         },
         {
-          "possesseur": { "nom": "John Doe" },
+          "possesseur": {
+            "nom": "John Doe"
+          },
           "libelle": "Survie",
           "valeur": 270000,
           "dateDebut": "2022-12-31T21:00:00.000Z",
           "dateFin": null,
-          "tauxAmortissement": 0,
+          "tauxAmortissement": null,
           "jour": 2,
           "valeurConstante": -300000
         },
         {
-          "possesseur": { "nom": "John Doe" },
+          "possesseur": {
+            "nom": "John Doe"
+          },
           "libelle": "effets vestimentaires",
           "valeur": 1000000,
           "dateDebut": "2023-01-01T00:00:00.000Z",
@@ -42,7 +57,9 @@
           "tauxAmortissement": 20
         },
         {
-          "possesseur": { "nom": "John Doe" },
+          "possesseur": {
+            "nom": "John Doe"
+          },
           "libelle": "Compte Epargne",
           "valeur": 200000,
           "dateDebut": "2022-12-31T21:00:00.000Z",
@@ -52,24 +69,35 @@
           "valeurConstante": 500000
         },
         {
-          "possesseur": { "nom": "John Doe" },
+          "possesseur": {
+            "nom": "John Doe"
+          },
           "libelle": "Espèces",
           "valeur": 400000,
           "dateDebut": "2024-08-07T21:00:00.000Z",
           "dateFin": null,
-          "tauxAmortissement": 0,
+          "tauxAmortissement": null,
           "jour": 2,
           "valeurConstante": -300000
         },
         {
-          "possesseur": { "nom": "John Doe" },
+          "possesseur": {
+            "nom": "John Doe"
+          },
           "libelle": "Compte Courant",
           "valeur": 600000,
           "dateDebut": "2024-03-27T21:00:00.000Z",
           "dateFin": null,
-          "tauxAmortissement": 0,
+          "tauxAmortissement": null,
           "jour": 2,
           "valeurConstante": -300000
+        },
+        {
+          "libelle": "iphone 6S",
+          "valeur": "700000",
+          "dateDebut": "2024-08-19",
+          "taux": "1",
+          "dateFin": null
         }
       ]
     }

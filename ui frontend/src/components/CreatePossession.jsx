@@ -1,81 +1,90 @@
+import axios from 'axios';
 import React, { useState } from 'react';
-import { Button, Container, Form } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Alert, Button, Col, Container, Form, Row } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
-const CreatePossession = () => {
+function CreatePossession() {
     const [libelle, setLibelle] = useState('');
     const [valeur, setValeur] = useState('');
     const [dateDebut, setDateDebut] = useState('');
     const [taux, setTaux] = useState('');
+    const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
-    const createPossession = () => {
-        fetch('/possession', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ libelle, valeur, dateDebut, taux }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            // Handle response
-            console.log(data);
-        });
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        // Validation des champs
+        if (!libelle || !valeur || !dateDebut || !taux) {
+            setError('Tous les champs sont obligatoires.');
+            return;
+        }
+
+        try {
+            await axios.post('http://localhost:5000/api/possession/create', {
+                libelle,
+                valeur,
+                dateDebut,
+                taux
+            });
+
+            // Rediriger vers la page des possessions après la création
+            navigate('/possession');
+        } catch (error) {
+            setError('Une erreur est survenue lors de la création de la possession.');
+        }
     };
 
     return (
-        <Container>
-            <h2>Créer une Possession</h2>
-            <Form>
-                <Form.Group controlId="formLibelle">
-                    <Form.Label>Libelle</Form.Label>
-                    <Form.Control
-                        type="text"
-                        value={libelle}
-                        onChange={(e) => setLibelle(e.target.value)}
-                    />
-                </Form.Group>
-
-                <Form.Group controlId="formValeur">
-                    <Form.Label>Valeur</Form.Label>
-                    <Form.Control
-                        type="number"
-                        value={valeur}
-                        onChange={(e) => setValeur(e.target.value)}
-                    />
-                </Form.Group>
-
-                <Form.Group controlId="formDateDebut">
-                    <Form.Label>Date Début</Form.Label>
-                    <Form.Control
-                        type="date"
-                        value={dateDebut}
-                        onChange={(e) => setDateDebut(e.target.value)}
-                    />
-                </Form.Group>
-
-                <Form.Group controlId="formTaux">
-                    <Form.Label>Taux</Form.Label>
-                    <Form.Control
-                        type="number"
-                        step="0.01"
-                        value={taux}
-                        onChange={(e) => setTaux(e.target.value)}
-                    />
-                </Form.Group>
-
-                <Button variant="primary" onClick={createPossession} as={Link} to={'/possession/create'}>
-                    Créer
-                </Button>
-                <Button variant="success" onClick={createPossession} as={Link} to={'/possession/:libelle/update'}>
-                    Mise à jour
-                </Button>
-                <Button variant="danger" onClick={createPossession} as={Link} to={'/possession/:libelle/close'}>
-                    Fermer
-                </Button>
-            </Form>
+        <Container className="my-5">
+            <Row className="justify-content-center">
+                <Col md={6} lg={4}>
+                    <h2 className="text-center mb-4">Créer une nouvelle possession</h2>
+                    {error && <Alert variant="danger">{error}</Alert>}
+                    <Form onSubmit={handleSubmit}>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Libelle</Form.Label>
+                            <Form.Control
+                                type="text"
+                                value={libelle}
+                                onChange={(e) => setLibelle(e.target.value)}
+                                placeholder="Entrez le libelle"
+                            />
+                        </Form.Group>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Valeur</Form.Label>
+                            <Form.Control
+                                type="number"
+                                value={valeur}
+                                onChange={(e) => setValeur(e.target.value)}
+                                placeholder="Entrez la valeur"
+                            />
+                        </Form.Group>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Date de début</Form.Label>
+                            <Form.Control
+                                type="date"
+                                value={dateDebut}
+                                onChange={(e) => setDateDebut(e.target.value)}
+                            />
+                        </Form.Group>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Taux</Form.Label>
+                            <Form.Control
+                                type="number"
+                                value={taux}
+                                onChange={(e) => setTaux(e.target.value)}
+                                placeholder="Entrez le taux"
+                            />
+                        </Form.Group>
+                        <Button variant="primary" type="submit" className="w-100">
+                            Créer
+                        </Button>
+                    </Form>
+                </Col>
+            </Row>
         </Container>
     );
-};
+}
 
 export default CreatePossession;
