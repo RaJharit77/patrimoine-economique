@@ -1,3 +1,4 @@
+import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {
     CategoryScale,
@@ -19,11 +20,11 @@ ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Title, T
 
 function PatrimoineChart() {
     const [chartData, setChartData] = useState({
-        labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+        labels: [],
         datasets: [
             {
                 label: 'Valeur du Patrimoine',
-                data: [65, 59, 80, 81, 56, 55],
+                data: [],
                 fill: false,
                 borderColor: 'rgba(75,192,192,1)',
                 tension: 0.1,
@@ -36,106 +37,140 @@ function PatrimoineChart() {
     const [selectedDate, setSelectedDate] = useState(null);
     const [jour, setJour] = useState('');
 
-    const handleValidateRange = () => {
-        // Appeler l'API pour obtenir la valeur du patrimoine sur une période donnée avec le jour sélectionné
-        setChartData({
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-            datasets: [
-                {
-                    label: 'Valeur du Patrimoine',
-                    data: [70, 60, 90, 85, 60, 65],
-                    fill: false,
-                    borderColor: 'rgba(75,192,192,1)',
-                    tension: 0.1,
-                },
-            ],
-        });
+    const handleValidateRange = async () => {
+        if (!dateDebut || !dateFin || !jour) {
+            alert('Veuillez remplir toutes les informations pour la période.');
+            return;
+        }
+        try {
+            const response = await axios.post('http://localhost:5000/api/patrimoine/range', {
+                type: 'month',
+                dateDebut: dateDebut.toISOString(),
+                dateFin: dateFin.toISOString(),
+                jour
+            });
+            console.log("Réponse de l'API pour la période :", response.data);
+
+            const months = response.data.map(entry => new Date(entry.date).toLocaleString('default', { month: 'short' }));
+            const values = response.data.map(entry => entry.valeur);
+
+            setChartData({
+                labels: months,
+                datasets: [
+                    {
+                        label: 'Valeur du Patrimoine',
+                        data: values,
+                        fill: false,
+                        borderColor: 'rgba(75,192,192,1)',
+                        tension: 0.1,
+                    },
+                ],
+            });
+        } catch (error) {
+            console.error("Erreur lors de la récupération des données :", error.response ? error.response.data : error.message);
+        }
     };
 
-    const handleValidateDate = () => {
-        // Appeler l'API pour obtenir la valeur du patrimoine à la date sélectionnée
-        setChartData({
-            labels: ['Selected Date'],
-            datasets: [
-                {
-                    label: 'Valeur du Patrimoine',
-                    data: [78],
-                    fill: false,
-                    borderColor: 'rgba(75,192,192,1)',
-                    tension: 0.1,
-                },
-            ],
-        });
+    const handleValidateDate = async () => {
+        if (!selectedDate) {
+            alert('Veuillez sélectionner une date.');
+            return;
+        }
+        try {
+            const response = await axios.get(`http://localhost:5000/api/patrimoine/${selectedDate.toISOString().split('T')[0]}`);
+            console.log("Réponse de l'API pour la date sélectionnée :", response.data);
+
+            setChartData({
+                labels: ['Date Sélectionnée'],
+                datasets: [
+                    {
+                        label: 'Valeur du Patrimoine',
+                        data: [response.data.valeur],
+                        fill: false,
+                        borderColor: 'rgba(75,192,192,1)',
+                        tension: 0.1,
+                    },
+                ],
+            });
+        } catch (error) {
+            console.error("Erreur lors de la récupération des données :", error.response ? error.response.data : error.message);
+        }
     };
 
     return (
-        <Container style={{ maxWidth: '800px', margin: '0 auto' }}>
-            <Form>
-                <Row className="mb-3">
-                    <Col>
-                        <Form.Group>
-                            <Form.Label>Date Début</Form.Label>
-                            <DatePicker
-                                selected={dateDebut}
-                                onChange={(date) => setDateDebut(date)}
-                                className="form-control"
-                                placeholderText="Sélectionner une date"
-                            />
-                        </Form.Group>
-                    </Col>
-                    <Col>
-                        <Form.Group>
-                            <Form.Label>Date Fin</Form.Label>
-                            <DatePicker
-                                selected={dateFin}
-                                onChange={(date) => setDateFin(date)}
-                                className="form-control"
-                                placeholderText="Sélectionner une date"
-                            />
-                        </Form.Group>
-                    </Col>
-                    <Col>
-                        <Form.Group>
-                            <Form.Label>Jour</Form.Label>
-                            <Form.Select value={jour} onChange={(e) => setJour(e.target.value)}>
-                                <option value="">Sélectionner un jour</option>
-                                <option value="Lundi">Lundi</option>
-                                <option value="Mardi">Mardi</option>
-                                <option value="Mercredi">Mercredi</option>
-                                <option value="Jeudi">Jeudi</option>
-                                <option value="Vendredi">Vendredi</option>
-                                <option value="Samedi">Samedi</option>
-                                <option value="Dimanche">Dimanche</option>
-                            </Form.Select>
-                        </Form.Group>
-                    </Col>
-                    <Col className="d-flex align-items-end">
-                        <Button variant="primary" onClick={handleValidateRange}>
-                            Validate Range
-                        </Button>
-                    </Col>
-                </Row>
-                <Row className="mb-3">
-                    <Col>
-                        <Form.Group>
-                            <Form.Label>Date </Form.Label>
-                            <DatePicker
-                                selected={selectedDate}
-                                onChange={(date) => setSelectedDate(date)}
-                                className="form-control"
-                                placeholderText="Sélectionner une date"
-                            />
-                        </Form.Group>
-                    </Col>
-                    <Col className="d-flex align-items-end">
-                        <Button variant="success" onClick={handleValidateDate}>
-                            Validate Date
-                        </Button>
-                    </Col>
-                </Row>
-            </Form>
+        <Container style={{ maxWidth: '900px', margin: '0 auto', paddingTop: '80px' }}>
+            <h2>Patrimoine</h2>
+            <Row className="mb-4">
+                <Col>
+                    <Form.Group>
+                        <Form.Label>Date Début</Form.Label>
+                        <DatePicker
+                            selected={dateDebut}
+                            onChange={(date) => setDateDebut(date)}
+                            className="form-control"
+                            placeholderText="Sélectionner une date"
+                        />
+                    </Form.Group>
+                </Col>
+                <Col>
+                    <Form.Group>
+                        <Form.Label>Date Fin</Form.Label>
+                        <DatePicker
+                            selected={dateFin}
+                            onChange={(date) => setDateFin(date)}
+                            className="form-control"
+                            placeholderText="Sélectionner une date"
+                        />
+                    </Form.Group>
+                </Col>
+                <Col>
+                    <Form.Group>
+                        <Form.Label>Jour</Form.Label>
+                        <Form.Select value={jour} onChange={(e) => setJour(e.target.value)}>
+                            <option value="">Sélectionner un jour</option>
+                            <option value="1">Lundi</option>
+                            <option value="2">Mardi</option>
+                            <option value="3">Mercredi</option>
+                            <option value="4">Jeudi</option>
+                            <option value="5">Vendredi</option>
+                            <option value="6">Samedi</option>
+                            <option value="7">Dimanche</option>
+                        </Form.Select>
+                    </Form.Group>
+                </Col>
+                <Col className="d-flex align-items-end">
+                    <Button variant="primary" onClick={handleValidateRange}>
+                        Valider la période
+                    </Button>
+                </Col>
+            </Row>
 
-            <Line data={chartData} />
+            <Row className="mb-4">
+                <Col>
+                    <Form.Group>
+                        <Form.Label>Date</Form.Label>
+                        <DatePicker
+                            selected={selectedDate}
+                            onChange={(date) => setSelectedDate(date)}
+                            className="form-control"
+                            placeholderText="Sélectionner une date"
+                        />
+                    </Form.Group>
+                </Col>
+                <Col className="d-flex align-items-end">
+                    <Button variant="success" onClick={handleValidateDate}>
+                        Valider la date
+                    </Button>
+                </Col>
+            </Row>
+
+            <Row>
+                <Col>
+                    <div className="chart-container" style={{ height: '300px', position: 'relative' }}>
+                        <Line data={chartData} options={{ responsive: true, maintainAspectRatio: false }} />
+                    </div>
+                </Col>
+            </Row>
         </Container>
     );
 }

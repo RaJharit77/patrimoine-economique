@@ -27,7 +27,7 @@ app.post('/api/possessions', async (req, res) => {
     try {
         const newPossession = req.body;
         const result = await readFile('./data/data.json');
-        
+
         if (result.status === "OK") {
             const data = result.data;
             data[1].data.possessions.push(newPossession);
@@ -61,7 +61,7 @@ app.post('/api/possession/create', async (req, res) => {
         }
 
         const data = result.data;
-        
+
         if (!Array.isArray(data) || !data[1] || !data[1].data || !Array.isArray(data[1].data.possessions)) {
             return res.status(500).json({ error: 'Invalid data format' });
         }
@@ -86,17 +86,45 @@ app.post('/api/possession/create', async (req, res) => {
     }
 });
 
-// Endpoint to update a possession by libelle
-app.put('/api/possession/:libelle', async (req, res) => {
+//Get possession
+app.get('/api/possession/:libelle', async (req, res) => {
     try {
         const { libelle } = req.params;
-        const { libelle: newLibelle, dateFin } = req.body;
+        console.log(`Recherche de la possession avec le libelle: ${libelle}`);
+        
         const result = await readFile('./data/data.json');
         
         if (result.status === "OK") {
             const data = result.data;
             const possession = data[1].data.possessions.find(p => p.libelle === libelle);
             
+            if (possession) {
+                console.log(`Possession trouvée: ${JSON.stringify(possession)}`);
+                res.status(200).json(possession);
+            } else {
+                console.log(`Possession non trouvée pour le libelle: ${libelle}`);
+                res.status(404).json({ message: "Possession not found" });
+            }
+        } else {
+            res.status(500).json({ message: "Error reading data", error: result.error });
+        }
+    } catch (error) {
+        res.status(500).json({ message: "Server error", error });
+    }
+});
+
+// Endpoint to update a possession by libelle
+app.put('/api/possession/:libelle', async (req, res) => {
+    console.log(`Received request to update possession: ${req.params.libelle}`);
+    try {
+        const { libelle } = req.params;
+        const { libelle: newLibelle, dateFin } = req.body;
+        const result = await readFile('./data/data.json');
+
+        if (result.status === "OK") {
+            const data = result.data;
+            const possession = data[1].data.possessions.find(p => p.libelle === libelle);
+
             if (possession) {
                 possession.libelle = newLibelle || possession.libelle;
                 possession.dateFin = dateFin || possession.dateFin;
@@ -127,7 +155,7 @@ app.put('/api/possession/:libelle/close', async (req, res) => {
         if (result.status === "OK") {
             const data = result.data;
             const possession = data[1].data.possessions.find(p => p.libelle === libelle);
-            
+
             if (possession) {
                 possession.dateFin = new Date().toISOString();
 
@@ -173,6 +201,7 @@ app.get('/api/patrimoine/:date', async (req, res) => {
 app.post('/api/patrimoine/range', async (req, res) => {
     try {
         const { type, dateDebut, dateFin, jour } = req.body;
+        console.log(`Request data for /api/patrimoine/range:`, { type, dateDebut, dateFin, jour });
         const result = await readFile('./data/data.json');
 
         if (result.status === "OK") {
@@ -195,6 +224,7 @@ app.post('/api/patrimoine/range', async (req, res) => {
             res.status(500).json({ message: "Error reading data", error: result.error });
         }
     } catch (error) {
+        console.error("Server error:", error);
         res.status(500).json({ message: "Server error", error });
     }
 });
