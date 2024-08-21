@@ -43,13 +43,13 @@ function PatrimoineChart() {
             return;
         }
         try {
+            console.log("Sending request to backend...");
             const response = await axios.post('http://localhost:5000/api/patrimoine/range', {
                 type: 'month',
                 dateDebut: dateDebut.toISOString(),
                 dateFin: dateFin.toISOString(),
                 jour
             });
-            console.log("Réponse de l'API pour la période :", response.data);
 
             const months = response.data.map(entry => new Date(entry.date).toLocaleString('default', { month: 'short' }));
             const values = response.data.map(entry => entry.valeur);
@@ -66,6 +66,7 @@ function PatrimoineChart() {
                     },
                 ],
             });
+            console.log("Response received:", response.data);
         } catch (error) {
             console.error("Erreur lors de la récupération des données :", error.response ? error.response.data : error.message);
         }
@@ -78,7 +79,6 @@ function PatrimoineChart() {
         }
         try {
             const response = await axios.get(`http://localhost:5000/api/patrimoine/${selectedDate.toISOString().split('T')[0]}`);
-            console.log("Réponse de l'API pour la date sélectionnée :", response.data);
 
             setChartData({
                 labels: ['Date Sélectionnée'],

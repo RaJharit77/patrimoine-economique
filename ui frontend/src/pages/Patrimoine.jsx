@@ -1,3 +1,4 @@
+
 import React from 'react';
 import PatrimoineChart from '../components/PatrimoineChart';
 

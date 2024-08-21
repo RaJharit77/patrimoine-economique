@@ -1,11 +1,21 @@
 import cors from 'cors';
 import express from 'express';
+import helmet from 'helmet';
+import morgan from 'morgan';
 import { readFile, writeFile } from '../data/data.js';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(cors());
+app.use(helmet());
+
+app.use(morgan('combined'));
+
+app.use(cors(
+    {
+        origin: 'http://localhost:5173',
+    }
+));
 app.use(express.json());
 
 // Endpoint to get the list of possessions
@@ -91,13 +101,13 @@ app.get('/api/possession/:libelle', async (req, res) => {
     try {
         const { libelle } = req.params;
         console.log(`Recherche de la possession avec le libelle: ${libelle}`);
-        
+
         const result = await readFile('./data/data.json');
-        
+
         if (result.status === "OK") {
             const data = result.data;
             const possession = data[1].data.possessions.find(p => p.libelle === libelle);
-            
+
             if (possession) {
                 console.log(`Possession trouvée: ${JSON.stringify(possession)}`);
                 res.status(200).json(possession);
@@ -176,19 +186,23 @@ app.put('/api/possession/:libelle/close', async (req, res) => {
     }
 });
 
-// Endpoint to get the value of patrimoine at a specific date
+// Endpoint to get patrimoine value by date
 app.get('/api/patrimoine/:date', async (req, res) => {
     try {
-        const { date } = req.params;
         const result = await readFile('./data/data.json');
-
         if (result.status === "OK") {
-            const data = result.data[1].data;
-            const patrimoineValue = data.possessions
-                .filter(p => !p.dateFin || new Date(p.dateFin) >= new Date(date))
-                .reduce((acc, p) => acc + p.valeur, 0);
+            const date = req.params.date;
+            const patrimoine = result.data[1].data.possessions.reduce((total, possession) => {
+                const dateDebut = new Date(possession.dateDebut);
+                const dateFin = possession.dateFin ? new Date(possession.dateFin) : null;
+                const currentDate = new Date(date);
 
-            res.status(200).json({ date, valeur: patrimoineValue });
+                if (currentDate >= dateDebut && (!dateFin || currentDate <= dateFin)) {
+                    total += possession.valeur;
+                }
+                return total;
+            }, 0);
+            res.json({ date, valeur: patrimoine });
         } else {
             res.status(500).json({ message: "Error reading data", error: result.error });
         }
@@ -197,38 +211,42 @@ app.get('/api/patrimoine/:date', async (req, res) => {
     }
 });
 
-// Endpoint to get the value of patrimoine over a range of time
+// Endpoint to get patrimoine value by range
 app.post('/api/patrimoine/range', async (req, res) => {
     try {
-        const { type, dateDebut, dateFin, jour } = req.body;
-        console.log(`Request data for /api/patrimoine/range:`, { type, dateDebut, dateFin, jour });
+        const { dateDebut, dateFin, jour } = req.body;
         const result = await readFile('./data/data.json');
 
         if (result.status === "OK") {
-            const data = result.data[1].data;
-            const dateStart = new Date(dateDebut);
-            const dateEnd = new Date(dateFin);
-            let patrimoineRange = [];
+            const patrimoineByMonth = [];
+            let currentDate = new Date(dateDebut);
+            const endDate = new Date(dateFin);
 
-            for (let d = new Date(dateStart); d <= dateEnd; d.setDate(d.getDate() + (type === 'month' ? 30 : 1))) {
-                if (d.getDate() === jour) {
-                    const patrimoineValue = data.possessions
-                        .filter(p => !p.dateFin || new Date(p.dateFin) >= d)
-                        .reduce((acc, p) => acc + p.valeur, 0);
-                    patrimoineRange.push({ date: d.toISOString().split('T')[0], valeur: patrimoineValue });
-                }
+            while (currentDate <= endDate) {
+                const patrimoineValue = result.data[1].data.possessions.reduce((total, possession) => {
+                    const dateDebutPossession = new Date(possession.dateDebut);
+                    const dateFinPossession = possession.dateFin ? new Date(possession.dateFin) : null;
+
+                    if (currentDate >= dateDebutPossession && (!dateFinPossession || currentDate <= dateFinPossession)) {
+                        total += possession.valeur;
+                    }
+                    return total;
+                }, 0);
+
+                patrimoineByMonth.push({ date: currentDate.toISOString().split('T')[0], valeur: patrimoineValue });
+
+                currentDate.setMonth(currentDate.getMonth() + 1);
             }
 
-            res.status(200).json(patrimoineRange);
+            res.json(patrimoineByMonth);
         } else {
             res.status(500).json({ message: "Error reading data", error: result.error });
         }
     } catch (error) {
-        console.error("Server error:", error);
         res.status(500).json({ message: "Server error", error });
     }
 });
 
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Server running on http://localhost:${PORT}`);
 });
