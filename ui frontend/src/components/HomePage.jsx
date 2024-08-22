@@ -1,17 +1,17 @@
 import { Button, Container, Grid, Typography } from '@mui/material';
 import { keyframes, styled } from '@mui/system';
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import data from '../../../data/data.json';
 
 const fadeInUp = keyframes`
     from {
-    opacity: 0;
-    transform: translateY(20px);
+        opacity: 0;
+        transform: translateY(20px);
     }
     to {
-    opacity: 1;
-    transform: translateY(0);
+        opacity: 1;
+        transform: translateY(0);
     }
 `;
 
@@ -24,10 +24,15 @@ const HomePage = () => {
     const [showButtons, setShowButtons] = useState(false);
 
     useEffect(() => {
-        const fetchUserName = async () => {
+        const fetchUserName = () => {
             try {
-                const response = await axios.get('../../../data/data.json');
-                setUserName(response.data[0].data.possesseur.nom);
+                const personneData = data.filter(item => item.model === 'Personne');
+
+                if (personneData.length > 0 && personneData[0].data && personneData[0].data.nom) {
+                    setUserName(personneData[0].data.nom);
+                } else {
+                    console.error('Données de personne ou nom introuvables.');
+                }
             } catch (error) {
                 console.error('Erreur lors de la récupération du nom de l\'utilisateur', error);
             }
