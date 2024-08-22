@@ -96,31 +96,11 @@
                     "possesseur": {
                         "nom": "John Doe"
                     },
-                    "libelle": "iPhone 6S",
-                    "valeur": "700000",
-                    "dateDebut": "2024-08-19",
-                    "tauxAmortissement": "1",
-                    "dateFin": "2024-09-07"
-                },
-                {
-                    "possesseur": {
-                        "nom": "John Doe"
-                    },
                     "libelle": "Manette Xbox",
                     "valeur": "100000",
                     "dateDebut": "2024-08-20",
                     "tauxAmortissement": "1",
                     "dateFin": "2024-12-20"
-                },
-                {
-                    "possesseur": {
-                        "nom": "John Doe"
-                    },
-                    "libelle": "Maison",
-                    "valeur": "2000000000",
-                    "dateDebut": "2024-08-07",
-                    "tauxAmortissement": "2",
-                    "dateFin": "2057-07-07"
                 }
             ]
         }
