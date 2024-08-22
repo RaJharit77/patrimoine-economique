@@ -1,14 +1,26 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import React from "react";
-import './App.css';
-import PossessionsTable from "./components/PossessionsTables";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import React from 'react';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import HomePage from './components/HomePage';
+import NavBar from './components/Navbar';
+import CreatePossession from './pages/CreatePossessionPage';
+import PatrimoinePage from './pages/Patrimoine';
+import PossessionList from './pages/Possessions';
+import UpdatePossession from './pages/UpdatePossessionPage';
 
 function App() {
-  return (
-    <div className="App">
-      <PossessionsTable />
-    </div>
-  );
+    return (
+        <Router>
+            <NavBar />
+            <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/possession" element={<PossessionList />} />
+                <Route path="/possession/create" element={<CreatePossession />} />
+                <Route path="/patrimoine" element={<PatrimoinePage />} />
+                <Route path="/possession/:libelle/update" element={<UpdatePossession />} />
+            </Routes>
+        </Router>
+    );
 }
 
 export default App;
