@@ -56,11 +56,11 @@ app.post('/api/possessions', async (req, res) => {
     }
 });
 
-//Endpoint to create possession
+// Endpoint to create possession
 app.post('/api/possession/create', async (req, res) => {
-    const { libelle, valeur, dateDebut, taux } = req.body;
+    const { libelle, valeur, dateDebut, taux, possesseur } = req.body;
 
-    if (!libelle || !valeur || !dateDebut || !taux) {
+    if (!libelle || !valeur || !dateDebut || !taux || !possesseur) {
         return res.status(400).json({ error: 'Tous les champs sont obligatoires.' });
     }
 
@@ -76,12 +76,15 @@ app.post('/api/possession/create', async (req, res) => {
             return res.status(500).json({ error: 'Invalid data format' });
         }
 
+        const tauxAmortissement = parseFloat(taux);
+
         data[1].data.possessions.push({
+            possesseur,
             libelle,
             valeur,
             dateDebut,
-            taux,
-            dateFin: null
+            tauxAmortissement,
+            dateFin: null,
         });
 
         const writeResult = await writeFile('./data/data.json', data);
@@ -177,6 +180,36 @@ app.put('/api/possession/:libelle/close', async (req, res) => {
                 }
             } else {
                 res.status(404).json({ message: "Possession not found" });
+            }
+        } else {
+            res.status(500).json({ message: "Error reading data", error: result.error });
+        }
+    } catch (error) {
+        res.status(500).json({ message: "Server error", error });
+    }
+});
+
+// Endpoint to delete a possession by libelle
+app.delete('/api/possession/:libelle', async (req, res) => {
+    try {
+        const { libelle } = req.params;
+        const result = await readFile('./data/data.json');
+
+        if (result.status === "OK") {
+            const data = result.data;
+            const index = data[1].data.possessions.findIndex(p => p.libelle === libelle);
+
+            if (index !== -1) {
+                data[1].data.possessions.splice(index, 1);
+
+                const writeResult = await writeFile('./data/data.json', data);
+                if (writeResult.status === "OK") {
+                    res.status(200).json({ message: "Possession supprimée avec succès" });
+                } else {
+                    res.status(500).json({ message: "Error writing data", error: writeResult.error });
+                }
+            } else {
+                res.status(404).json({ message: "Possession non trouvée" });
             }
         } else {
             res.status(500).json({ message: "Error reading data", error: result.error });

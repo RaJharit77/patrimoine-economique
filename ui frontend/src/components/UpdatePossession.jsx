@@ -12,7 +12,7 @@ const UpdatePossession = () => {
     const [valeurInitiale, setValeurInitiale] = useState('');
     const [dateDebut, setDateDebut] = useState('');
     const [dateFin, setDateFin] = useState('');
-    const [tauxAmortissement, setTauxAmortissement] = useState('');
+    const [tauxAmortissement, setTauxAmortissement] = useState(''); 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -27,7 +27,7 @@ const UpdatePossession = () => {
                     if (response.data.dateFin) {
                         setDateFin(response.data.dateFin);
                     }
-                    setTauxAmortissement(response.data.taux);
+                    setTauxAmortissement(response.data.tauxAmortissement);
                 }
             } catch (error) {
                 setError('Erreur lors de la récupération des données de la possession.');
@@ -45,7 +45,7 @@ const UpdatePossession = () => {
                 valeur: valeurInitiale,
                 dateDebut,
                 dateFin,
-                taux: tauxAmortissement
+                tauxAmortissement
             });
             navigate('/possession');
         } catch (error) {
@@ -53,6 +53,10 @@ const UpdatePossession = () => {
         } finally {
             setLoading(false);
         }
+    };
+
+    const handleCancel = () => {
+        navigate('/possession');
     };
 
     return (
@@ -101,12 +105,15 @@ const UpdatePossession = () => {
                     <Form.Control
                         type="number"
                         value={tauxAmortissement}
-                        onChange={(e) => setTauxAmortissement(e.target.value)}
+                        onChange={(e) => setTauxAmortissement(e.target.value)} 
                     />
                 </Form.Group>
 
                 <Button variant="primary" onClick={updatePossession} disabled={loading}>
                     {loading ? 'Mise à jour en cours...' : 'Mettre à jour'}
+                </Button>
+                <Button variant="secondary" onClick={handleCancel} className="ms-2">
+                    Annuler
                 </Button>
             </Form>
         </Container>

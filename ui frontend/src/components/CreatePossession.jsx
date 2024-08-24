@@ -4,6 +4,7 @@ import { Alert, Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
 function CreatePossession() {
+    const [nomComplet, setNomComplet] = useState('');
     const [libelle, setLibelle] = useState('');
     const [valeur, setValeur] = useState('');
     const [dateDebut, setDateDebut] = useState('');
@@ -14,21 +15,20 @@ function CreatePossession() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Validation des champs
-        if (!libelle || !valeur || !dateDebut || !taux) {
+        if (!libelle || !valeur || !dateDebut || !taux || !nomComplet) {
             setError('Tous les champs sont obligatoires.');
             return;
         }
 
         try {
             await axios.post('http://localhost:5000/api/possession/create', {
+                possesseur: nomComplet,
                 libelle,
                 valeur,
                 dateDebut,
                 taux
             });
 
-            // Rediriger vers la page des possessions après la création
             navigate('/possession');
         } catch (error) {
             setError('Une erreur est survenue lors de la création de la possession.');
@@ -42,6 +42,15 @@ function CreatePossession() {
                     <h2 className="text-center mb-4">Créer une nouvelle possession</h2>
                     {error && <Alert variant="danger">{error}</Alert>}
                     <Form onSubmit={handleSubmit}>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Nom Complet</Form.Label>
+                            <Form.Control
+                                type="text"
+                                value={nomComplet}
+                                onChange={(e) => setNomComplet(e.target.value)}
+                                placeholder="Entrez le nom complet du possesseur"
+                            />
+                        </Form.Group>
                         <Form.Group className="mb-3">
                             <Form.Label>Libelle</Form.Label>
                             <Form.Control
@@ -69,12 +78,12 @@ function CreatePossession() {
                             />
                         </Form.Group>
                         <Form.Group className="mb-3">
-                            <Form.Label>Taux</Form.Label>
+                            <Form.Label>Taux d'Amortissement</Form.Label>
                             <Form.Control
                                 type="number"
                                 value={taux}
                                 onChange={(e) => setTaux(e.target.value)}
-                                placeholder="Entrez le taux"
+                                placeholder="Entrez le taux d'Amortissement"
                             />
                         </Form.Group>
                         <Button variant="primary" type="submit" className="w-100">

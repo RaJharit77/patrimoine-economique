@@ -1,12 +1,13 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Button, Container, Table } from 'react-bootstrap';
+import { FaEdit, FaTimesCircle, FaTrash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
 const calculateCurrentValue = (possession) => {
     const startDate = new Date(possession.dateDebut);
     const yearsDifference = (new Date() - startDate) / (365 * 24 * 60 * 60 * 1000);
-    const amortissement = possession.valeur * (possession.tauxAmortissement / 100) * yearsDifference;
+    const amortissement = possession.valeur * (possession.taux / 100) * yearsDifference;
     return possession.valeur - amortissement;
 };
 
@@ -46,6 +47,16 @@ const PossessionList = () => {
         }
     };
 
+    const handleDelete = async (libelle) => {
+        console.log(`Suppression de ${libelle}`); // Vérifiez si cela s'affiche dans la console
+        try {
+            await axios.delete(`http://localhost:5000/api/possession/${libelle}`);
+            setPossessionsData(possessionsData.filter(possession => possession.libelle !== libelle));
+        } catch (error) {
+            console.error('Erreur lors de la suppression de la possession:', error);
+        }
+    };
+
     const handleCreatePossession = () => {
         navigate('/possession/create');
     };
@@ -73,15 +84,21 @@ const PossessionList = () => {
                                 <td>{possession.valeur}</td>
                                 <td>{possession.dateDebut}</td>
                                 <td>{possession.dateFin || 'N/A'}</td>
-                                <td>{possession.tauxAmortissement}</td>
+                                <td>{possession.taux}</td>
                                 <td>{calculateCurrentValue(possession).toFixed(0)}</td>
                                 <td>
-                                    <Button variant="warning" onClick={() => handleEditPossession(possession.libelle)}>
-                                        Éditer
-                                    </Button>{' '}
-                                    <Button variant="danger" onClick={() => handleClosePossession(possession.libelle)}>
-                                        Clôturer
-                                    </Button>
+                                    <FaEdit
+                                        style={{ color: 'orange', cursor: 'pointer', marginRight: '10px' }}
+                                        onClick={() => handleEditPossession(possession.libelle)}
+                                    />
+                                    <FaTimesCircle
+                                        style={{ color: 'red', cursor: 'pointer', marginRight: '10px' }}
+                                        onClick={() => handleClosePossession(possession.libelle)}
+                                    />
+                                    <FaTrash
+                                        style={{ color: 'grey', cursor: 'pointer' }}
+                                        onClick={() => handleDelete(possession.libelle)}
+                                    />
                                 </td>
                             </tr>
                         ))}
