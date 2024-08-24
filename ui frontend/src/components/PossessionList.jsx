@@ -48,12 +48,12 @@ const PossessionList = () => {
     };
 
     const handleDelete = async (libelle) => {
-        console.log(`Suppression de ${libelle}`); // Vérifiez si cela s'affiche dans la console
+        console.log(`Suppression de ${libelle}`);
         try {
             await axios.delete(`http://localhost:5000/api/possession/${libelle}`);
             setPossessionsData(possessionsData.filter(possession => possession.libelle !== libelle));
         } catch (error) {
-            console.error('Erreur lors de la suppression de la possession:', error);
+            console.error('Erreur lors de la suppression de la possession:', error.message);
         }
     };
 
