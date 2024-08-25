@@ -1,9 +1,9 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
-import HomePage from './components/HomePage';
-import NavBar from './components/Navbar';
 import CreatePossession from './pages/CreatePossessionPage';
+import HomePage from './pages/HomePage';
+import NavBar from './pages/Navbar';
 import PatrimoinePage from './pages/Patrimoine';
 import PossessionList from './pages/Possessions';
 import UpdatePossession from './pages/UpdatePossessionPage';

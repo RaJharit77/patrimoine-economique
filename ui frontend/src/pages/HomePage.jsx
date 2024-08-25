@@ -58,7 +58,7 @@ const HomePage = () => {
                 textAlign: 'center'
             }}
         >
-            <Typography variant="h3" sx={{ mb: 2 }}>
+            <Typography variant="h4" sx={{ mb: 2 }}>
                 Bienvenue sur le site de gestion de la patrimoine {userName}
             </Typography>
 
