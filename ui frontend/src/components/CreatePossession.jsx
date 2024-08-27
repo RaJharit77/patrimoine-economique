@@ -35,6 +35,10 @@ function CreatePossession() {
         }
     };
 
+    const handleCancel = () => {
+        navigate('/possession');
+    };
+
     return (
         <Container className="my-5">
             <Row className="justify-content-center">
@@ -86,8 +90,11 @@ function CreatePossession() {
                                 placeholder="Entrez le taux d'Amortissement"
                             />
                         </Form.Group>
-                        <Button variant="primary" type="submit" className="w-100">
+                        <Button variant="primary" type="submit" className="w-100 mb-2">
                             Créer
+                        </Button>
+                        <Button variant="secondary" onClick={handleCancel} className="w-100">
+                            Annuler
                         </Button>
                     </Form>
                 </Col>
