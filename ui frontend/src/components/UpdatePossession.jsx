@@ -9,10 +9,10 @@ const UpdatePossession = () => {
     const navigate = useNavigate();
 
     const [libelleUpdated, setLibelleUpdated] = useState('');
-    const [valeurInitiale, setValeurInitiale] = useState('');
+    const [valeur, setValeur] = useState('');
     const [dateDebut, setDateDebut] = useState('');
     const [dateFin, setDateFin] = useState('');
-    const [tauxAmortissement, setTauxAmortissement] = useState(''); 
+    const [taux, setTaux] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -22,12 +22,12 @@ const UpdatePossession = () => {
                 const response = await axios.get(`http://localhost:5000/api/possession/${libelleEncoded}`);
                 if (response.data) {
                     setLibelleUpdated(response.data.libelle);
-                    setValeurInitiale(response.data.valeur);
+                    setValeur(response.data.valeur);
                     setDateDebut(response.data.dateDebut);
                     if (response.data.dateFin) {
                         setDateFin(response.data.dateFin);
                     }
-                    setTauxAmortissement(response.data.tauxAmortissement);
+                    setTaux(response.data.taux);
                 }
             } catch (error) {
                 setError('Erreur lors de la récupération des données de la possession.');
@@ -42,10 +42,10 @@ const UpdatePossession = () => {
         try {
             await axios.put(`http://localhost:5000/api/possession/${libelleEncoded}`, {
                 libelle: libelleUpdated,
-                valeur: valeurInitiale,
+                valeur,
                 dateDebut,
                 dateFin,
-                tauxAmortissement
+                taux
             });
             navigate('/possession');
         } catch (error) {
@@ -73,12 +73,12 @@ const UpdatePossession = () => {
                     />
                 </Form.Group>
 
-                <Form.Group controlId="formValeurInitiale">
-                    <Form.Label>Valeur Initiale</Form.Label>
+                <Form.Group controlId="formValeur">
+                    <Form.Label>Valeur</Form.Label>
                     <Form.Control
                         type="number"
-                        value={valeurInitiale}
-                        onChange={(e) => setValeurInitiale(e.target.value)}
+                        value={valeur}
+                        onChange={(e) => setValeur(e.target.value)}
                     />
                 </Form.Group>
 
@@ -100,12 +100,12 @@ const UpdatePossession = () => {
                     />
                 </Form.Group>
 
-                <Form.Group controlId="formTauxAmortissement">
+                <Form.Group controlId="formTaux">
                     <Form.Label>Taux d'Amortissement</Form.Label>
                     <Form.Control
                         type="number"
-                        value={tauxAmortissement}
-                        onChange={(e) => setTauxAmortissement(e.target.value)} 
+                        value={taux}
+                        onChange={(e) => setTaux(e.target.value)} 
                     />
                 </Form.Group>
 

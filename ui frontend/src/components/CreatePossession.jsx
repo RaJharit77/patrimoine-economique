@@ -22,7 +22,7 @@ function CreatePossession() {
 
         try {
             await axios.post('http://localhost:5000/api/possession/create', {
-                possesseur: nomComplet,
+                possesseur: { nom: nomComplet },
                 libelle,
                 valeur,
                 dateDebut,

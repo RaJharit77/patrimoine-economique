@@ -69,7 +69,7 @@ const PossessionList = () => {
                     <thead>
                         <tr>
                             <th>Libellé</th>
-                            <th>Valeur Initiale</th>
+                            <th>Valeur</th>
                             <th>Date de début</th>
                             <th>Date de fin</th>
                             <th>Taux d'Amortissement</th>

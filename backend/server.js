@@ -76,14 +76,12 @@ app.post('/api/possession/create', async (req, res) => {
             return res.status(500).json({ error: 'Invalid data format' });
         }
 
-        const tauxAmortissement = parseFloat(taux);
-
         data[1].data.possessions.push({
             possesseur,
             libelle,
             valeur,
             dateDebut,
-            tauxAmortissement,
+            taux,
             dateFin: null,
         });
 
