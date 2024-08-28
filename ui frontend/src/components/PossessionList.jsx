@@ -21,7 +21,7 @@ const PossessionList = () => {
                 const response = await axios.get('http://localhost:5000/api/possessions');
                 setPossessionsData(response.data);
             } catch (error) {
-                console.error('Error fetching data:', error);
+                console.error('Erreur lors de la récupération des données :', error);
             }
         };
 
@@ -43,7 +43,7 @@ const PossessionList = () => {
             });
             setPossessionsData(updatedData);
         } catch (error) {
-            console.error('Error closing possession:', error);
+            console.error('Erreur lors de la clôture de la possession :', error);
         }
     };
 

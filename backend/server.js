@@ -25,10 +25,10 @@ app.get('/api/possessions', async (req, res) => {
         if (result.status === "OK") {
             res.json(result.data[1].data.possessions);
         } else {
-            res.status(500).json({ message: "Error reading data", error: result.error });
+            res.status(500).json({ message: "Erreur de lecture des données", error: result.error });
         }
     } catch (error) {
-        res.status(500).json({ message: "Server error", error });
+        res.status(500).json({ message: "Erreur du serveur", error });
     }
 });
 
@@ -46,13 +46,13 @@ app.post('/api/possessions', async (req, res) => {
             if (writeResult.status === "OK") {
                 res.status(201).json(newPossession);
             } else {
-                res.status(500).json({ message: "Error writing data", error: writeResult.error });
+                res.status(500).json({ message: "Erreur d'écriture de donnée", error: writeResult.error });
             }
         } else {
-            res.status(500).json({ message: "Error reading data", error: result.error });
+            res.status(500).json({ message: "Erreur de lecture des données", error: result.error });
         }
     } catch (error) {
-        res.status(500).json({ message: "Server error", error });
+        res.status(500).json({ message: "Erreur du serveur", error });
     }
 });
 
@@ -67,13 +67,13 @@ app.post('/api/possession/create', async (req, res) => {
     try {
         const result = await readFile('./data/data.json');
         if (result.status !== "OK") {
-            return res.status(500).json({ error: 'Failed to read data' });
+            return res.status(500).json({ error: 'Échec de la lecture des données' });
         }
 
         const data = result.data;
 
         if (!Array.isArray(data) || !data[1] || !data[1].data || !Array.isArray(data[1].data.possessions)) {
-            return res.status(500).json({ error: 'Invalid data format' });
+            return res.status(500).json({ error: 'Format de données invalide' });
         }
 
         data[1].data.possessions.push({
@@ -87,13 +87,13 @@ app.post('/api/possession/create', async (req, res) => {
 
         const writeResult = await writeFile('./data/data.json', data);
         if (writeResult.status !== "OK") {
-            return res.status(500).json({ error: 'Failed to write data' });
+            return res.status(500).json({ error: 'Échec de l\'écriture des données' });
         }
 
         res.status(201).json({ message: 'Possession créée avec succès', possession: req.body });
     } catch (error) {
         console.error('Error during /api/possession/create:', error);
-        res.status(500).json({ message: "Server error", error });
+        res.status(500).json({ message: "Erreur du serveur", error });
     }
 });
 
@@ -114,13 +114,13 @@ app.get('/api/possession/:libelle', async (req, res) => {
                 res.status(200).json(possession);
             } else {
                 console.log(`Possession non trouvée pour le libelle: ${libelle}`);
-                res.status(404).json({ message: "Possession not found" });
+                res.status(404).json({ message: "Possession introuvable" });
             }
         } else {
-            res.status(500).json({ message: "Error reading data", error: result.error });
+            res.status(500).json({ message: "Erreur de lecture des données", error: result.error });
         }
     } catch (error) {
-        res.status(500).json({ message: "Server error", error });
+        res.status(500).json({ message: "Erreur du serveur", error });
     }
 });
 
@@ -144,16 +144,16 @@ app.put('/api/possession/:libelle', async (req, res) => {
                 if (writeResult.status === "OK") {
                     res.status(200).json(possession);
                 } else {
-                    res.status(500).json({ message: "Error writing data", error: writeResult.error });
+                    res.status(500).json({ message: "Erreur d'écriture des données", error: writeResult.error });
                 }
             } else {
-                res.status(404).json({ message: "Possession not found" });
+                res.status(404).json({ message: "Possession introuvalble" });
             }
         } else {
-            res.status(500).json({ message: "Error reading data", error: result.error });
+            res.status(500).json({ message: "Erreur de lecture de données", error: result.error });
         }
     } catch (error) {
-        res.status(500).json({ message: "Server error", error });
+        res.status(500).json({ message: "Erreur du serveur", error });
     }
 });
 
@@ -174,16 +174,16 @@ app.put('/api/possession/:libelle/close', async (req, res) => {
                 if (writeResult.status === "OK") {
                     res.status(200).json(possession);
                 } else {
-                    res.status(500).json({ message: "Error writing data", error: writeResult.error });
+                    res.status(500).json({ message: "Erreur d'écriture des données", error: writeResult.error });
                 }
             } else {
-                res.status(404).json({ message: "Possession not found" });
+                res.status(404).json({ message: "Possession introuvable" });
             }
         } else {
-            res.status(500).json({ message: "Error reading data", error: result.error });
+            res.status(500).json({ message: "Erreur lecture des données", error: result.error });
         }
     } catch (error) {
-        res.status(500).json({ message: "Server error", error });
+        res.status(500).json({ message: "Erreur du serveur", error });
     }
 });
 
@@ -204,16 +204,16 @@ app.delete('/api/possession/:libelle', async (req, res) => {
                 if (writeResult.status === "OK") {
                     res.status(200).json({ message: "Possession supprimée avec succès" });
                 } else {
-                    res.status(500).json({ message: "Error writing data", error: writeResult.error });
+                    res.status(500).json({ message: "Erreur d'écriture des données", error: writeResult.error });
                 }
             } else {
                 res.status(404).json({ message: "Possession non trouvée" });
             }
         } else {
-            res.status(500).json({ message: "Error reading data", error: result.error });
+            res.status(500).json({ message: "Erreur de lecture des données", error: result.error });
         }
     } catch (error) {
-        res.status(500).json({ message: "Server error", error });
+        res.status(500).json({ message: "Erreur du serveur", error });
     }
 });
 
@@ -235,10 +235,10 @@ app.get('/api/patrimoine/:date', async (req, res) => {
             }, 0);
             res.json({ date, valeur: patrimoine });
         } else {
-            res.status(500).json({ message: "Error reading data", error: result.error });
+            res.status(500).json({ message: "Erreur de lecture des données", error: result.error });
         }
     } catch (error) {
-        res.status(500).json({ message: "Server error", error });
+        res.status(500).json({ message: "Erreur du serveur", error });
     }
 });
 
@@ -271,10 +271,10 @@ app.post('/api/patrimoine/range', async (req, res) => {
 
             res.json(patrimoineByMonth);
         } else {
-            res.status(500).json({ message: "Error reading data", error: result.error });
+            res.status(500).json({ message: "Erreur de lecture des données", error: result.error });
         }
     } catch (error) {
-        res.status(500).json({ message: "Server error", error });
+        res.status(500).json({ message: "Erreur du serveur", error });
     }
 });
 

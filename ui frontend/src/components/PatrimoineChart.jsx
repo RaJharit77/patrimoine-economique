@@ -43,7 +43,7 @@ function PatrimoineChart() {
             return;
         }
         try {
-            console.log("Sending request to backend...");
+            console.log("Envoi de la demande au backend...");
             const response = await axios.post('http://localhost:5000/api/patrimoine/range', {
                 type: 'month',
                 dateDebut: dateDebut.toISOString(),
