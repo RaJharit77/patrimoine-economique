@@ -19,7 +19,7 @@ app.use(cors(
 app.use(express.json());
 
 // Endpoint to get the list of possessions
-app.get('/api/possessions', async (req, res) => {
+app.get('/api/possession', async (req, res) => {
     try {
         const result = await readFile('./data/data.json');
         if (result.status === "OK") {
@@ -33,7 +33,7 @@ app.get('/api/possessions', async (req, res) => {
 });
 
 // Endpoint for possession
-app.post('/api/possessions', async (req, res) => {
+app.post('/api/possession', async (req, res) => {
     try {
         const newPossession = req.body;
         const result = await readFile('./data/data.json');
