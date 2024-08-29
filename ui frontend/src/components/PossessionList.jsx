@@ -84,7 +84,7 @@ const PossessionList = () => {
                                 <td>{possession.valeur}</td>
                                 <td>{possession.dateDebut}</td>
                                 <td>{possession.dateFin || 'N/A'}</td>
-                                <td>{possession.taux}</td>
+                                <td>{possession.taux}%</td>
                                 <td>{calculateCurrentValue(possession).toFixed(0)}</td>
                                 <td>
                                     <FaEdit
