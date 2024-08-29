@@ -100,17 +100,17 @@
                     "valeur": "100000",
                     "dateDebut": "2024-08-20",
                     "taux": "3",
-                    "dateFin": "2024-12-20"
+                    "dateFin": "2024-08-29T20:09:17.631Z"
                 },
                 {
                     "possesseur": {
-                        "nom": "RaJharit"
+                        "nom": "John Doe"
                     },
-                    "libelle": "MGS 22",
-                    "valeur": "50000",
-                    "dateDebut": "2024-08-07",
-                    "taux": "1",
-                    "dateFin": "2026-07-07"
+                    "libelle": "iPhone 15 Pro max",
+                    "valeur": "15000000",
+                    "dateDebut": "2024-08-24",
+                    "taux": "7",
+                    "dateFin": "2025-02-02"
                 }
             ]
         }
