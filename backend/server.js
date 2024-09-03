@@ -1,7 +1,10 @@
 import cors from 'cors';
+import dotenv from 'dotenv';
 import express from 'express';
+import path from 'path';
 import { readFile, writeFile } from '../data/data.js';
 
+dotenv.config({ path: path.resolve('ui', '.env') });
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -10,6 +13,7 @@ app.use(cors(
         origin: 'http://localhost:5173',
     }
 ));
+
 app.use(express.json());
 
 // Endpoint to get the list of possessions
