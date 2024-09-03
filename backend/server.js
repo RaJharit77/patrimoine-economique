@@ -1,10 +1,10 @@
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
-import path from 'path';
 import { readFile, writeFile } from '../data/data.js';
 
-dotenv.config({ path: path.resolve('ui', '.env') });
+dotenv.config();
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 

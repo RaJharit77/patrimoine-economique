@@ -1,2 +1,3 @@
 node_modules
 \ui frontend/.env
+.env
