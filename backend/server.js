@@ -7,6 +7,7 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const DATA_PATH = process.env.DATA_PATH || './data/data.json';
 
 app.use(cors(
     {
@@ -19,7 +20,7 @@ app.use(express.json());
 // Endpoint to get the list of possessions
 app.get('/api/possession', async (req, res) => {
     try {
-        const result = await readFile('./data/data.json');
+        const result = await readFile(DATA_PATH);
         if (result.status === "OK") {
             res.json(result.data[1].data.possessions);
         } else {
@@ -34,13 +35,13 @@ app.get('/api/possession', async (req, res) => {
 app.post('/api/possession', async (req, res) => {
     try {
         const newPossession = req.body;
-        const result = await readFile('./data/data.json');
+        const result = await readFile(DATA_PATH);
 
         if (result.status === "OK") {
             const data = result.data;
             data[1].data.possessions.push(newPossession);
 
-            const writeResult = await writeFile('./data/data.json', data);
+            const writeResult = await writeFile(DATA_PATH, data);
             if (writeResult.status === "OK") {
                 res.status(201).json(newPossession);
             } else {
@@ -63,7 +64,7 @@ app.post('/api/possession/create', async (req, res) => {
     }
 
     try {
-        const result = await readFile('./data/data.json');
+        const result = await readFile(DATA_PATH);
         if (result.status !== "OK") {
             return res.status(500).json({ error: 'Échec de la lecture des données' });
         }
@@ -83,7 +84,7 @@ app.post('/api/possession/create', async (req, res) => {
             dateFin: null,
         });
 
-        const writeResult = await writeFile('./data/data.json', data);
+        const writeResult = await writeFile(DATA_PATH, data);
         if (writeResult.status !== "OK") {
             return res.status(500).json({ error: 'Échec de l\'écriture des données' });
         }
@@ -101,7 +102,7 @@ app.get('/api/possession/:libelle', async (req, res) => {
         const { libelle } = req.params;
         console.log(`Recherche de la possession avec le libelle: ${libelle}`);
 
-        const result = await readFile('./data/data.json');
+        const result = await readFile(DATA_PATH);
 
         if (result.status === "OK") {
             const data = result.data;
@@ -128,7 +129,7 @@ app.put('/api/possession/:libelle', async (req, res) => {
     try {
         const { libelle } = req.params;
         const { libelle: newLibelle, dateFin } = req.body;
-        const result = await readFile('./data/data.json');
+        const result = await readFile(DATA_PATH);
 
         if (result.status === "OK") {
             const data = result.data;
@@ -138,7 +139,7 @@ app.put('/api/possession/:libelle', async (req, res) => {
                 possession.libelle = newLibelle || possession.libelle;
                 possession.dateFin = dateFin || possession.dateFin;
 
-                const writeResult = await writeFile('./data/data.json', data);
+                const writeResult = await writeFile(DATA_PATH, data);
                 if (writeResult.status === "OK") {
                     res.status(200).json(possession);
                 } else {
@@ -159,7 +160,7 @@ app.put('/api/possession/:libelle', async (req, res) => {
 app.put('/api/possession/:libelle/close', async (req, res) => {
     try {
         const { libelle } = req.params;
-        const result = await readFile('./data/data.json');
+        const result = await readFile(DATA_PATH);
 
         if (result.status === "OK") {
             const data = result.data;
@@ -168,7 +169,7 @@ app.put('/api/possession/:libelle/close', async (req, res) => {
             if (possession) {
                 possession.dateFin = new Date().toISOString();
 
-                const writeResult = await writeFile('./data/data.json', data);
+                const writeResult = await writeFile(DATA_PATH, data);
                 if (writeResult.status === "OK") {
                     res.status(200).json(possession);
                 } else {
@@ -189,7 +190,7 @@ app.put('/api/possession/:libelle/close', async (req, res) => {
 app.delete('/api/possession/:libelle', async (req, res) => {
     try {
         const { libelle } = req.params;
-        const result = await readFile('./data/data.json');
+        const result = await readFile(DATA_PATH);
 
         if (result.status === "OK") {
             const data = result.data;
@@ -198,7 +199,7 @@ app.delete('/api/possession/:libelle', async (req, res) => {
             if (index !== -1) {
                 data[1].data.possessions.splice(index, 1);
 
-                const writeResult = await writeFile('./data/data.json', data);
+                const writeResult = await writeFile(DATA_PATH, data);
                 if (writeResult.status === "OK") {
                     res.status(200).json({ message: "Possession supprimée avec succès" });
                 } else {
@@ -218,7 +219,7 @@ app.delete('/api/possession/:libelle', async (req, res) => {
 // Endpoint to get patrimoine value by date
 app.get('/api/patrimoine/:date', async (req, res) => {
     try {
-        const result = await readFile('./data/data.json');
+        const result = await readFile(DATA_PATH);
         if (result.status === "OK") {
             const date = req.params.date;
             const patrimoine = result.data[1].data.possessions.reduce((total, possession) => {
@@ -244,7 +245,7 @@ app.get('/api/patrimoine/:date', async (req, res) => {
 app.post('/api/patrimoine/range', async (req, res) => {
     try {
         const { dateDebut, dateFin, jour } = req.body;
-        const result = await readFile('./data/data.json');
+        const result = await readFile(DATA_PATH);
 
         if (result.status === "OK") {
             const patrimoineByMonth = [];
