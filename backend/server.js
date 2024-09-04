@@ -1,8 +1,6 @@
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
-import path from 'path';
-import { fileURLToPath } from 'url';
 import { readFile, writeFile } from '../data/data.js';
 
 dotenv.config();
@@ -17,13 +15,8 @@ app.use(cors(
     }
 ));
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-app.use(express.static(path.join(__dirname, '../ui/dist')));
-
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../ui/dist', 'index.html'));
+app.get('/', (req, res) => {
+    res.send('Backend is working properly');
 });
 
 app.use(express.json());
