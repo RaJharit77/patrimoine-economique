@@ -1,6 +1,7 @@
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
+import path from 'path';
 import { readFile, writeFile } from '../data/data.js';
 
 dotenv.config();
@@ -14,6 +15,12 @@ app.use(cors(
         origin: 'https://patrimoine-economique-ui.onrender.com',
     }
 ));
+
+app.use(express.static(path.join(__dirname, 'build')));
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 app.use(express.json());
 
