@@ -11,7 +11,7 @@ const DATA_PATH = process.env.DATA_PATH || './data/data.json';
 
 app.use(cors(
     {
-        origin: 'http://localhost:5173',
+        origin: 'https://patrimoine-economique-ui.onrender.com',
     }
 ));
 
