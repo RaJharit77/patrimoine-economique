@@ -1,7 +1,7 @@
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
-import { dirname, join } from 'path';
+import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { readFile, writeFile } from '../data/data.js';
 
@@ -26,11 +26,11 @@ app.use((err, req, res, next) => {
 
 app.options('*', cors());
 app.use(express.json());
-
+/*
 app.use(express.static(join(__dirname, '../ui/dist')));
 app.get('/', (req, res) => {
     res.sendFile(join(__dirname, '../ui/dist/index.html'));
-});
+});*/
 
 app.get('/api/data', async (req, res) => {
     try {
