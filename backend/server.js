@@ -1,7 +1,8 @@
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
-import path from 'path';
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
 import { readFile, writeFile } from '../data/data.js';
 
 dotenv.config();
@@ -9,7 +10,8 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 const DATA_PATH = process.env.DATA_PATH || './data/data.json';
-
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 app.use(cors({
     origin: 'https://patrimoine-economique-ui.onrender.com',
