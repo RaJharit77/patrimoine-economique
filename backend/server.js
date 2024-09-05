@@ -25,7 +25,7 @@ app.use((err, req, res, next) => {
 app.options('*', cors());
 app.use(express.json());
 
-
+app.use(express.static(path.join(__dirname, '../ui/dist')));
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../ui/dist', 'index.html'));
 });
