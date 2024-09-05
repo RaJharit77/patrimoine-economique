@@ -14,17 +14,6 @@ app.use(cors(
         origin: 'https://patrimoine-economique-ui.onrender.com',
     }
 ));
-/*
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-app.use(express.static(path.join(__dirname, '../build')));
-
-app.use(express.static('dist'));
-
-app.get('/', (req, res) => {
-    res.send('Backend is working properly');
-});*/
 
 app.use(express.json());
 
