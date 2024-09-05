@@ -67,6 +67,7 @@ app.post('/api/possession', async (req, res) => {
 // Endpoint to create possession
 app.post('/api/possession/create', async (req, res) => {
     const { libelle, valeur, dateDebut, taux, possesseur } = req.body;
+    console.log("Requête reçue pour création de possession :", req.body);
 
     if (!libelle || !valeur || !dateDebut || !taux || !possesseur) {
         return res.status(400).json({ error: 'Tous les champs sont obligatoires.' });
