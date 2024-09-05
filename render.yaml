@@ -1,6 +1,16 @@
 services:
   - type: web
-    name: patrimoine-economique
+    name: patrimoine-frontend
+    runtime: static
+    buildCommand: 'npm install && npm run build'
+    startCommand: 'npm run dev'
+    envVars:
+      - key: PORT
+        value: 5000
+    autoDeploy: true
+
+  - type: web
+    name: patrimoine-backend
     runtime: node
     plan: free
     buildCommand: 'npm install'
