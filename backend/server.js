@@ -26,6 +26,22 @@ app.options('*', cors());
 
 app.use(express.json());
 
+app.get('/api/data', async (req, res) => {
+    try {
+        const result = await readFile(DATA_PATH);
+        console.log('Result Data:', result.data);
+
+        if (result.status === "OK") {
+            res.json(result.data);
+        } else {
+            res.status(500).json({ message: "Erreur de lecture des données", error: result.error });
+        }
+    } catch (error) {
+        console.error('Erreur du serveur lors de la récupération des données', error);
+        res.status(500).json({ message: "Erreur du serveur", error });
+    }
+});
+
 // Endpoint to get the list of possessions
 app.get('/api/possession', async (req, res) => {
     try {
