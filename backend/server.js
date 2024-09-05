@@ -20,11 +20,11 @@ const __dirname = path.dirname(__filename);
 
 app.use(express.static(path.join(__dirname, '../build')));
 
-app.use(express.static('dist'));*/
+app.use(express.static('dist'));
 
 app.get('/', (req, res) => {
     res.send('Backend is working properly');
-});
+});*/
 
 app.use(express.json());
 
