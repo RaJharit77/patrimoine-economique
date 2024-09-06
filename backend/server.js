@@ -7,7 +7,7 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-const DATA_PATH = process.env.DATA_PATH || 'data/data.json';
+const DATA_PATH = process.env.DATA_PATH || './data/data.json';
 
 app.use(cors({
     origin: 'https://patrimoine-economique-ui.onrender.com',
