@@ -1,7 +1,7 @@
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
-import { readFile, writeFile } from '../data/data.js';
+import { readFile, writeFile } from './data/data.js';
 
 dotenv.config();
 
