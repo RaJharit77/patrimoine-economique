@@ -9,12 +9,26 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const DATA_PATH = process.env.DATA_PATH || './data/data.json';
 
-app.use(cors({
-    origin: 'https://patrimoine-economique-ui.onrender.com',
-    origin: "https://patrimoine-economique-ui.vercel.app",
+const allowedOrigins = [
+    'https://patrimoine-economique-ui.onrender.com',
+    'https://patrimoine-economique-ui.vercel.app',
+    'http://localhost:5173'
+];
+
+const corsOptions = {
+    origin: (origin, callback) => {
+        if (allowedOrigins.includes(origin) || !origin) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-}));
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
+};
+
+app.use(cors(corsOptions));
 
 app.use((err, req, res, next) => {
     console.error(err.stack);
