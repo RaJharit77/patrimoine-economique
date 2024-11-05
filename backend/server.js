@@ -11,6 +11,7 @@ const DATA_PATH = process.env.DATA_PATH || './data/data.json';
 
 app.use(cors({
     origin: 'https://patrimoine-economique-ui.onrender.com',
+    origin: "https://patrimoine-economique-ui.vercel.app",
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
